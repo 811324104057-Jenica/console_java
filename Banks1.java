@@ -34,6 +34,7 @@ class Operations {
     HashMap<Integer, Account> accounts = new HashMap<>();
     Scanner sc = new Scanner(System.in);
 
+    // --------Create Account------------
     public void createAccount() {
 
         System.out.print("Enter Account Number: ");
@@ -59,6 +60,7 @@ class Operations {
         System.out.println("Account Created Successfully.");
     }
 
+    // ----------Deposit------------
     public void deposit() {
 
         System.out.print("Enter Account Number: ");
@@ -79,9 +81,56 @@ class Operations {
         System.out.println("Amount Deposited Successfully.");
         System.out.println("Current Balance: " + account.getBalance());
     }
+
+    // ----------Withdraw-------------
+    public void withdraw() {
+
+        System.out.print("Enter Account Number: ");
+        int accNo = sc.nextInt();
+
+        Account account = accounts.get(accNo);
+
+        if (account == null) {
+            System.out.println("Account Not Found.");
+            return;
+        }
+
+        System.out.print("Enter Amount: ");
+        double amount = sc.nextDouble();
+
+        if (amount <= account.getBalance()) {
+
+            account.setBalance(account.getBalance() - amount);
+
+            System.out.println("Amount Withdrawn Successfully.");
+            System.out.println("Current Balance: " + account.getBalance());
+
+        } else {
+            System.out.println("Insufficient Balance.");
+        }
+    }
+
+    // ---------Check Balance--------
+    public void checkBalance() {
+
+        System.out.print("Enter Account Number: ");
+        int accNo = sc.nextInt();
+
+        Account account = accounts.get(accNo);
+
+        if (account == null) {
+            System.out.println("Account Not Found.");
+            return;
+        }
+
+        System.out.println("\n------ Account Details ------");
+        System.out.println("Account Number : " + account.getAccNo());
+        System.out.println("Account Holder : " + account.getName());
+        System.out.println("Balance        : " + account.getBalance());
+    }
 }
 
-public class Banks1 {
+public class Banks {
 
     public static void main(String[] args) {
 
@@ -93,7 +142,9 @@ public class Banks1 {
             System.out.println("\n------ MENU ------");
             System.out.println("1. Create Account");
             System.out.println("2. Deposit");
-            System.out.println("3. Exit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Check Balance");
+            System.out.println("5. Exit");
 
             System.out.print("Enter Choice: ");
             int choice = sc.nextInt();
@@ -109,8 +160,17 @@ public class Banks1 {
                     break;
 
                 case 3:
+                    obj.withdraw();
+                    break;
+
+                case 4:
+                    obj.checkBalance();
+                    break;
+
+                case 5:
                     System.out.println("Thank You!");
                     System.exit(0);
+                    break;
 
                 default:
                     System.out.println("Invalid Choice.");

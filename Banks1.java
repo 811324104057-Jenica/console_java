@@ -5,11 +5,14 @@ class Account {
     private int accNo;
     private String name;
     private double balance;
+    private ArrayList<String> miniStatement;
 
     public Account(int accNo, String name, double balance) {
         this.accNo = accNo;
         this.name = name;
         this.balance = balance;
+        miniStatement = new ArrayList<>();
+        miniStatement.add("Account Created : +" + balance);
     }
 
     public int getAccNo() {
@@ -26,6 +29,10 @@ class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public ArrayList<String> getMiniStatement() {
+        return miniStatement;
     }
 }
 
@@ -77,6 +84,7 @@ class Operations {
         double amount = sc.nextDouble();
 
         account.setBalance(account.getBalance() + amount);
+        account.getMiniStatement().add("Deposit : +" + amount);
 
         System.out.println("Amount Deposited Successfully.");
         System.out.println("Current Balance: " + account.getBalance());
@@ -101,6 +109,7 @@ class Operations {
         if (amount <= account.getBalance()) {
 
             account.setBalance(account.getBalance() - amount);
+            account.getMiniStatement().add("Withdrawal : -" + amount);
 
             System.out.println("Amount Withdrawn Successfully.");
             System.out.println("Current Balance: " + account.getBalance());
@@ -128,9 +137,31 @@ class Operations {
         System.out.println("Account Holder : " + account.getName());
         System.out.println("Balance        : " + account.getBalance());
     }
-}
+//-------------mini statement----------------
+public void miniStatement() {
 
-public class Banks {
+    System.out.print("Enter Account Number: ");
+    int accNo = sc.nextInt();
+
+    Account account = accounts.get(accNo);
+
+    if (account == null) {
+        System.out.println("Account Not Found.");
+        return;
+    }
+
+    System.out.println("\n------ MINI STATEMENT ------");
+    System.out.println("Account Number : " + account.getAccNo());
+    System.out.println("Account Holder : " + account.getName());
+
+    for (String transaction : account.getMiniStatement()) {
+        System.out.println(transaction);
+    }
+
+    System.out.println("Current Balance : " + account.getBalance());
+    }
+}
+public class Banks1{
 
     public static void main(String[] args) {
 
@@ -144,7 +175,8 @@ public class Banks {
             System.out.println("2. Deposit");
             System.out.println("3. Withdraw");
             System.out.println("4. Check Balance");
-            System.out.println("5. Exit");
+            System.out.println("5. Mini Statement");
+            System.out.println("6. Exit");
 
             System.out.print("Enter Choice: ");
             int choice = sc.nextInt();
@@ -166,8 +198,12 @@ public class Banks {
                 case 4:
                     obj.checkBalance();
                     break;
-
+                
                 case 5:
+                    obj.miniStatement();
+                    break;
+
+                case 6:
                     System.out.println("Thank You!");
                     System.exit(0);
                     break;

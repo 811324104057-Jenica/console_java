@@ -39,12 +39,12 @@ class Account {
 
 class Operations {
 
-    // LinkedHashMap used only for creating accounts
+    // LinkedHashMap used for creating and storing accounts
     LinkedHashMap<Integer, Account> accounts = new LinkedHashMap<>();
 
     Scanner sc = new Scanner(System.in);
 
-    // --------Create Account------------
+    // -------- Create Account --------
     public void createAccount() {
 
         System.out.print("Enter Account Number: ");
@@ -63,11 +63,47 @@ class Operations {
         System.out.print("Enter Initial Balance: ");
         double balance = sc.nextDouble();
 
+        if (balance < 500) {
+            System.out.println("Account Cannot Be Created.");
+            System.out.println("Minimum Balance Required is Rs.500.");
+            return;
+        }
         Account account = new Account(accNo, name, balance);
 
         accounts.put(accNo, account);
-
         System.out.println("Account Created Successfully.");
+    }
+
+    // -------- Deposit --------
+    public void deposit() {
+
+        System.out.print("Enter Account Number: ");
+        int accNo = sc.nextInt();
+
+        if (!accounts.containsKey(accNo)) {
+            System.out.println("Account Not Found.");
+            return;
+        }
+
+        Account account = accounts.get(accNo);
+
+        System.out.print("Enter Deposit Amount: ");
+        double amount = sc.nextDouble();
+
+        if (amount <= 0) {
+            System.out.println("Invalid Deposit Amount.");
+            return;
+        }
+
+        double newBalance = account.getBalance() + amount;
+
+        account.setBalance(newBalance);
+
+        account.getMiniStatement().add("Deposit : +" + amount);
+
+        System.out.println("Deposit Successful.");
+        System.out.println("Deposited Amount : " + amount);
+        System.out.println("Current Balance  : " + account.getBalance());
     }
 }
 
@@ -79,7 +115,9 @@ public class Banks1 {
         Operations obj = new Operations();
 
         System.out.println("\n------ CREATE ACCOUNT ------");
-
         obj.createAccount();
+
+        System.out.println("\n------ DEPOSIT ------");
+        obj.deposit();
     }
 }

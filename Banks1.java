@@ -37,12 +37,13 @@ class Account {
     }
 }
 
+
 class Operations {
 
-    // LinkedHashMap used for creating and storing accounts
     LinkedHashMap<Integer, Account> accounts = new LinkedHashMap<>();
 
     Scanner sc = new Scanner(System.in);
+
 
     // -------- Create Account --------
     public void createAccount() {
@@ -68,11 +69,14 @@ class Operations {
             System.out.println("Minimum Balance Required is Rs.500.");
             return;
         }
+
         Account account = new Account(accNo, name, balance);
 
         accounts.put(accNo, account);
+
         System.out.println("Account Created Successfully.");
     }
+
 
     // -------- Deposit --------
     public void deposit() {
@@ -105,19 +109,96 @@ class Operations {
         System.out.println("Deposited Amount : " + amount);
         System.out.println("Current Balance  : " + account.getBalance());
     }
+
+
+    // -------- Withdrawal --------
+    public void withdraw() {
+
+        System.out.print("Enter Account Number: ");
+        int accNo = sc.nextInt();
+
+        if (!accounts.containsKey(accNo)) {
+            System.out.println("Account Not Found.");
+            return;
+        }
+
+        Account account = accounts.get(accNo);
+
+        System.out.print("Enter Withdrawal Amount: ");
+        double amount = sc.nextDouble();
+
+        if (amount <= 0) {
+            System.out.println("Invalid Withdrawal Amount.");
+            return;
+        }
+
+        if (amount > account.getBalance()) {
+            System.out.println("Insufficient Balance.");
+            return;
+        }
+
+        if (account.getBalance() - amount < 500) {
+            System.out.println("Withdrawal Cannot Be Completed.");
+            System.out.println("Minimum Balance of Rs.500 Must Be Maintained.");
+            return;
+        }
+
+        double newBalance = account.getBalance() - amount;
+
+        account.setBalance(newBalance);
+
+        account.getMiniStatement().add("Withdrawal : -" + amount);
+
+        System.out.println("Withdrawal Successful.");
+        System.out.println("Withdrawn Amount : " + amount);
+        System.out.println("Current Balance  : " + account.getBalance());
+    }
 }
+
 
 public class Banks1 {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
         Operations obj = new Operations();
 
-        System.out.println("\n------ CREATE ACCOUNT ------");
-        obj.createAccount();
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println("\n------ DEPOSIT ------");
-        obj.deposit();
+        int choice;
+
+        do {
+
+            System.out.println("1. Create Account");
+            System.out.println("2. Deposit");
+            System.out.println("3. Withdrawal");
+            System.out.println("4. Exit");
+            
+
+            System.out.print("Enter Your Choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    obj.createAccount();
+                    break;
+
+                case 2:
+                    obj.deposit();
+                    break;
+
+                case 3:
+                    obj.withdraw();
+                    break;
+
+                case 4:
+                    System.out.println("\nThank You For Using Bank Management System.");
+                    break;
+
+                default:
+                    System.out.println("\nInvalid Choice.");
+            }
+
+        } while (choice != 4);
     }
 }

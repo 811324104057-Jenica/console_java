@@ -5,15 +5,11 @@ class Account {
     private int accNo;
     private String name;
     private double balance;
-    private ArrayList<String> miniStatement;
 
     public Account(int accNo, String name, double balance) {
         this.accNo = accNo;
         this.name = name;
         this.balance = balance;
-
-        miniStatement = new ArrayList<>();
-        miniStatement.add("Account Created : +" + balance);
     }
 
     public int getAccNo() {
@@ -30,10 +26,6 @@ class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
-    }
-
-    public ArrayList<String> getMiniStatement() {
-        return miniStatement;
     }
 }
 
@@ -103,8 +95,6 @@ class Operations {
 
         account.setBalance(newBalance);
 
-        account.getMiniStatement().add("Deposit : +" + amount);
-
         System.out.println("Deposit Successful.");
         System.out.println("Deposited Amount : " + amount);
         System.out.println("Current Balance  : " + account.getBalance());
@@ -147,11 +137,28 @@ class Operations {
 
         account.setBalance(newBalance);
 
-        account.getMiniStatement().add("Withdrawal : -" + amount);
-
         System.out.println("Withdrawal Successful.");
         System.out.println("Withdrawn Amount : " + amount);
         System.out.println("Current Balance  : " + account.getBalance());
+    }
+
+
+    // -------- Check Balance --------
+    public void checkBalance() {
+
+        System.out.print("Enter Account Number: ");
+        int accNo = sc.nextInt();
+
+        if (!accounts.containsKey(accNo)) {
+            System.out.println("Account Not Found.");
+            return;
+        }
+
+        Account account = accounts.get(accNo);
+
+        System.out.println("Account Number : " + account.getAccNo());
+        System.out.println("Account Name   : " + account.getName());
+        System.out.println("Current Balance: " + account.getBalance());
     }
 }
 
@@ -171,8 +178,8 @@ public class Banks1 {
             System.out.println("1. Create Account");
             System.out.println("2. Deposit");
             System.out.println("3. Withdrawal");
-            System.out.println("4. Exit");
-            
+            System.out.println("4. Check Balance");
+            System.out.println("5. Exit");
 
             System.out.print("Enter Your Choice: ");
             choice = sc.nextInt();
@@ -192,6 +199,10 @@ public class Banks1 {
                     break;
 
                 case 4:
+                    obj.checkBalance();
+                    break;
+
+                case 5:
                     System.out.println("\nThank You For Using Bank Management System.");
                     break;
 
@@ -199,6 +210,6 @@ public class Banks1 {
                     System.out.println("\nInvalid Choice.");
             }
 
-        } while (choice != 4);
+        } while (choice != 5);
     }
 }

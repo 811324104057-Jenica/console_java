@@ -49,36 +49,51 @@ class Operations {
 
 
     // -------- Create Account --------
-    public void createAccount() {
+   public void createAccount() {
 
-        System.out.print("Enter Account Number: ");
-        int accNo = sc.nextInt();
+    System.out.print("Enter Account Number: ");
+    int accNo = sc.nextInt();
 
-        if (accounts.containsKey(accNo)) {
-            System.out.println("Account Already Exists.");
-            return;
-        }
-
-        sc.nextLine();
-
-        System.out.print("Enter Name: ");
-        String name = sc.nextLine();
-
-        System.out.print("Enter Initial Balance: ");
-        double balance = sc.nextDouble();
-
-        if (balance < 500) {
-            System.out.println("Account Cannot Be Created.");
-            System.out.println("Minimum Balance Required is Rs.500.");
-            return;
-        }
-
-        Account account = new Account(accNo, name, balance);
-
-        accounts.put(accNo, account);
-
-        System.out.println("Account Created Successfully.");
+    // Check whether account already exists
+    if (accounts.containsKey(accNo)) {
+        System.out.println("Account Already Exists.");
+        return;
     }
+
+    sc.nextLine();
+
+    System.out.print("Enter Name: ");
+    String name = sc.nextLine();
+
+    // Validate name
+    if (name.trim().isEmpty()) {
+        System.out.println("Name Cannot Be Empty.");
+        return;
+    }
+
+    System.out.print("Enter Initial Balance: ");
+    double balance = sc.nextDouble();
+
+    // Validate balance
+    if (balance < 500) {
+        System.out.println("Account Cannot Be Created.");
+        System.out.println("Minimum Balance Required is Rs.500.");
+        return;
+    }
+
+    // Create account
+    Account account = new Account(accNo, name, balance);
+
+    // Store account
+    accounts.put(accNo, account);
+
+    System.out.println("================================");
+    System.out.println("     ACCOUNT CREATED SUCCESSFULLY");
+    System.out.println("================================");
+    System.out.println("Account Number : " + accNo);
+    System.out.println("Account Holder : " + name);
+    System.out.println("Initial Balance: Rs." + balance);
+}
 
 
     // -------- Deposit --------

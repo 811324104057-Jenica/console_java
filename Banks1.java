@@ -24,8 +24,14 @@ class Account {
         return balance;
     }
 
+    // Deposit money
     public void deposit(double amount) {
         this.balance += amount;
+    }
+
+    // Withdraw money
+    public void withdraw(double amount) {
+        this.balance -= amount;
     }
 }
 
@@ -35,6 +41,7 @@ class Operations {
 
     Scanner sc = new Scanner(System.in);
 
+    // Create Account
     public void createAccount() {
 
         System.out.print("Enter Account Number: ");
@@ -76,6 +83,7 @@ class Operations {
         System.out.println("Initial Balance: Rs." + balance);
     }
 
+    // Deposit Money
     public void depositMoney() {
 
         System.out.print("Enter Account Number: ");
@@ -90,19 +98,70 @@ class Operations {
         double amount = sc.nextDouble();
 
         if (amount <= 0) {
-            System.out.println("Invalid Amount. Deposit must be greater than 0.");
+            System.out.println(
+                    "Invalid Amount. Deposit must be greater than 0."
+            );
             return;
         }
 
         Account account = accounts.get(accNo);
+
         account.deposit(amount);
 
         System.out.println("================================");
-        System.out.println("   DEPOSIT SUCCESSFUL");
+        System.out.println("      DEPOSIT SUCCESSFUL");
         System.out.println("================================");
-        System.out.println("Account Number : " + account.getAccNo());
-        System.out.println("Account Holder : " + account.getName());
-        System.out.println("Amount Deposited: Rs." + amount);
+        System.out.println("Account Number   : " + account.getAccNo());
+        System.out.println("Account Holder   : " + account.getName());
+        System.out.println("Amount Deposited : Rs." + amount);
+        System.out.println("Updated Balance  : Rs." + account.getBalance());
+    }
+
+    // Withdraw Money
+    public void withdrawMoney() {
+
+        System.out.print("Enter Account Number: ");
+        int accNo = sc.nextInt();
+
+        if (!accounts.containsKey(accNo)) {
+            System.out.println("Account Does Not Exist.");
+            return;
+        }
+
+        System.out.print("Enter Amount to Withdraw: ");
+        double amount = sc.nextDouble();
+
+        if (amount <= 0) {
+            System.out.println(
+                    "Invalid Amount. Withdrawal must be greater than 0."
+            );
+            return;
+        }
+
+        Account account = accounts.get(accNo);
+
+        // Check minimum balance
+        if (account.getBalance() - amount < 500) {
+            System.out.println("================================");
+            System.out.println("      WITHDRAWAL FAILED");
+            System.out.println("================================");
+            System.out.println(
+                    "Minimum Balance of Rs.500 must be maintained."
+            );
+            System.out.println(
+                    "Available Balance: Rs." + account.getBalance()
+            );
+            return;
+        }
+
+        account.withdraw(amount);
+
+        System.out.println("================================");
+        System.out.println("    WITHDRAWAL SUCCESSFUL");
+        System.out.println("================================");
+        System.out.println("Account Number  : " + account.getAccNo());
+        System.out.println("Account Holder  : " + account.getName());
+        System.out.println("Amount Withdrawn: Rs." + amount);
         System.out.println("Updated Balance : Rs." + account.getBalance());
     }
 }
@@ -124,7 +183,8 @@ public class Banks1 {
             System.out.println("================================");
             System.out.println("1. Create Account");
             System.out.println("2. Deposit Money");
-            System.out.println("3. Exit");
+            System.out.println("3. Withdraw Money");
+            System.out.println("4. Exit");
             System.out.println("================================");
 
             System.out.print("Enter Your Choice: ");
@@ -141,6 +201,10 @@ public class Banks1 {
                     break;
 
                 case 3:
+                    obj.withdrawMoney();
+                    break;
+
+                case 4:
                     System.out.println(
                             "\nThank You For Using Bank Management System."
                     );
@@ -150,7 +214,7 @@ public class Banks1 {
                     System.out.println("\nInvalid Choice.");
             }
 
-        } while (choice != 3);
+        } while (choice != 4);
 
         sc.close();
     }

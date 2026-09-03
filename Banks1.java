@@ -1,7 +1,5 @@
 import java.util.*;
-
 class Account {
-
     private int accNo;
     private String name;
     private double balance;
@@ -11,37 +9,25 @@ class Account {
         this.name = name;
         this.balance = balance;
     }
-
     public int getAccNo() {
         return accNo;
     }
-
     public String getName() {
         return name;
     }
-
     public double getBalance() {
         return balance;
     }
-
-    // Deposit money
     public void deposit(double amount) {
         this.balance += amount;
     }
-
-    // Withdraw money
     public void withdraw(double amount) {
         this.balance -= amount;
     }
 }
-
 class Operations {
-
     TreeMap<Integer, Account> accounts = new TreeMap<>();
-
     Scanner sc = new Scanner(System.in);
-
-    // Create Account
     public void createAccount() {
 
         System.out.print("Enter Account Number: ");
@@ -61,20 +47,16 @@ class Operations {
             System.out.println("Name Cannot Be Empty.");
             return;
         }
-
         System.out.print("Enter Initial Balance: ");
         double balance = sc.nextDouble();
-
-        if (balance < 500) {
+                if (balance < 500) {
             System.out.println("Account Cannot Be Created.");
             System.out.println("Minimum Balance Required is Rs.500.");
             return;
         }
 
         Account account = new Account(accNo, name, balance);
-
         accounts.put(accNo, account);
-
         System.out.println("================================");
         System.out.println("   ACCOUNT CREATED SUCCESSFULLY");
         System.out.println("================================");
@@ -82,10 +64,7 @@ class Operations {
         System.out.println("Account Holder : " + name);
         System.out.println("Initial Balance: Rs." + balance);
     }
-
-    // Deposit Money
     public void depositMoney() {
-
         System.out.print("Enter Account Number: ");
         int accNo = sc.nextInt();
 
@@ -93,7 +72,6 @@ class Operations {
             System.out.println("Account Does Not Exist.");
             return;
         }
-
         System.out.print("Enter Amount to Deposit: ");
         double amount = sc.nextDouble();
 
@@ -103,11 +81,8 @@ class Operations {
             );
             return;
         }
-
         Account account = accounts.get(accNo);
-
         account.deposit(amount);
-
         System.out.println("================================");
         System.out.println("      DEPOSIT SUCCESSFUL");
         System.out.println("================================");
@@ -116,18 +91,14 @@ class Operations {
         System.out.println("Amount Deposited : Rs." + amount);
         System.out.println("Updated Balance  : Rs." + account.getBalance());
     }
-
-    // Withdraw Money
     public void withdrawMoney() {
 
         System.out.print("Enter Account Number: ");
         int accNo = sc.nextInt();
-
         if (!accounts.containsKey(accNo)) {
             System.out.println("Account Does Not Exist.");
             return;
         }
-
         System.out.print("Enter Amount to Withdraw: ");
         double amount = sc.nextDouble();
 
@@ -137,10 +108,8 @@ class Operations {
             );
             return;
         }
-
         Account account = accounts.get(accNo);
 
-        // Check minimum balance
         if (account.getBalance() - amount < 500) {
             System.out.println("================================");
             System.out.println("      WITHDRAWAL FAILED");
@@ -153,9 +122,7 @@ class Operations {
             );
             return;
         }
-
         account.withdraw(amount);
-
         System.out.println("================================");
         System.out.println("    WITHDRAWAL SUCCESSFUL");
         System.out.println("================================");
@@ -164,18 +131,29 @@ class Operations {
         System.out.println("Amount Withdrawn: Rs." + amount);
         System.out.println("Updated Balance : Rs." + account.getBalance());
     }
+    public void checkBalance() {
+
+        System.out.print("Enter Account Number: ");
+        int accNo = sc.nextInt();
+
+        if (!accounts.containsKey(accNo)) {
+            System.out.println("Account Does Not Exist.");
+            return;
+        }
+        Account account = accounts.get(accNo);
+        System.out.println("================================");
+        System.out.println("          ACCOUNT DETAILS");
+        System.out.println("================================");
+        System.out.println("Account Number : " + account.getAccNo());
+        System.out.println("Account Holder : " + account.getName());
+        System.out.println("Current Balance: Rs." + account.getBalance());
+    }
 }
-
 public class Banks1 {
-
     public static void main(String[] args) {
-
         Operations obj = new Operations();
-
         Scanner sc = new Scanner(System.in);
-
         int choice;
-
         do {
 
             System.out.println("\n================================");
@@ -184,7 +162,8 @@ public class Banks1 {
             System.out.println("1. Create Account");
             System.out.println("2. Deposit Money");
             System.out.println("3. Withdraw Money");
-            System.out.println("4. Exit");
+            System.out.println("4. Check Balance");
+            System.out.println("5. Exit");
             System.out.println("================================");
 
             System.out.print("Enter Your Choice: ");
@@ -205,6 +184,10 @@ public class Banks1 {
                     break;
 
                 case 4:
+                    obj.checkBalance();
+                    break;
+
+                case 5:
                     System.out.println(
                             "\nThank You For Using Bank Management System."
                     );
@@ -214,8 +197,7 @@ public class Banks1 {
                     System.out.println("\nInvalid Choice.");
             }
 
-        } while (choice != 4);
-
-        sc.close();
+        } while (choice != 5);
     }
 }
+
